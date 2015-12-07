@@ -1,0 +1,56 @@
+<project name="Demo Project" default="dist">
+
+	<!--property name="appversion" value="1.1" /-->
+	<property file="build.properties" />
+
+	<target name="clean">
+		
+		<delete dir="build/classes" />
+		<delete dir="build/jar" />
+		<delete dir="build/web" />
+		<delete dir="dist" />
+		
+	</target>
+	
+	<target name="init" depends="clean">
+	
+		<mkdir dir="build/classes" />
+		<mkdir dir="build/jar" />
+		<mkdir dir="build/web" />
+	
+	</target>
+	
+	<target name="compile" depends="init">
+	
+		<javac file="HelloWorldExample.java"
+			destdir="build/classes"
+		/>
+	
+	</target>
+	
+	<target name="jar" depends="compile">
+	
+		<jar destfile="build/jar/app-${appversion}.jar" basedir="build/classes" />
+	
+	</target>
+	
+	<target name="copywebfiles">
+	
+		<copy todir="build/web">
+			<fileset dir="web">
+		
+			</fileset>
+		</copy>
+		
+	</target>
+	
+	<target name="dist" depends="jar,copywebfiles">
+	
+		<zip destfile="dist/app-${appversion}.zip">
+			<fileset dir="build/jar" />
+			<fileset dir="build/web" />
+		</zip>
+	
+	</target>
+
+</project>
